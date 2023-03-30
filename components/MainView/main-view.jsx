@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MovieCard } from "../MovieCard/movie-card";
 import { MovieView } from "../MovieView/movie-view";
 import movieImage from "../MainView/images/images.jpeg";
@@ -6,37 +6,18 @@ import movieImage2 from "../MainView/images/shawshank.jpg";
 import movieImage3 from "../MainView/images/gladiator.jpeg";
 
 export const MainView = () => {
-  const [movies, setMovies] = useState([
-    {
-      id: 1,
-      title: "Inception",
-      image: movieImage,
-      director: "Christopher Nolan",
-      genre: "Thriller",
-      description:
-        "The movie follows a professional thief who steals information by infiltrating the subconscious mind of his targets",
-    },
-    {
-      id: 2,
-      title: "The Shawshank Redemption",
-      image: movieImage2,
-      director: "Frank Darabont",
-      genre: "Crime",
-      description:
-        "The movie follows a banker who is sentenced to life in Shawshank State Penitentiary for the murder of his wife and her lover",
-    },
-    {
-      id: 3,
-      title: "Gladiator",
-      image: movieImage3,
-      director: "Ridley Scott",
-      genre: "Action",
-      description:
-        "The movie follows a former Roman general who seeks revenge against the corrupt emperor who murdered his family and sent him into slavery",
-    },
-  ]);
-
+  const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  useEffect(() => {
+    fetch("https://morning-badlands-99587.herokuapp.com/movies")
+      .then((response) => response.json())
+      .then((data) => {
+        setMovies(data);
+      })
+      .catch((err) => console.log(err));
+    console.log(selectedMovie);
+  });
+  // Try passing the selectedmovie Object to the movie-view
   if (selectedMovie) {
     return (
       <MovieView
@@ -45,23 +26,37 @@ export const MainView = () => {
       />
     );
   }
-  if (movies.length === 0) {
-    return <div>THE LIST IS EMPTY!</div>;
-  }
-
+  //else if (movies.length == 0) render <p>Movies list is empty</p>
+  // if (movies.length === 0) {
+  // Iterated the movies list to render each item on the dom
   return (
     <div>
-      {movies.map((movie) => {
-        return (
-          <MovieCard
-            key={movie.id}
-            movie={movie}
-            onMovieClick={(newSelectedMovie) => {
-              setSelectedMovie(newSelectedMovie);
-            }}
-          />
-        );
-      })}
+      <ul>
+        {movies.map((x) => (
+          <li>
+            <a href="#" onClick={() => setSelectedMovie(x)}>
+              {x.Name}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
+  // }
+
+  // return (
+  //   <div>
+  //     {movies.map((movie) => {
+  //       return (
+  //         <MovieCard
+  //           key={movie.id}
+  //           movie={movie}
+  //           onMovieClick={(newSelectedMovie) => {
+  //             setSelectedMovie(newSelectedMovie);
+  //           }}
+  //         />
+  //       );
+  //     })}
+  //   </div>
+  // );
 };
