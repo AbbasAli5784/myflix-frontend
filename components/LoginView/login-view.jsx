@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const LoginView = () => {
+export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = (event) => {
@@ -22,11 +22,13 @@ export const LoginView = () => {
       .then((response) => response.json()) //Parse tge resonse JSON
       .then((data) => {
         console.log("Login succesful:", data);
+        onLoggedIn(data.user, data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
       })
       .catch((error) => {
         console.error("Error during login:", error);
       });
-     
   };
   return (
     <form onSubmit={handleSubmit}>
