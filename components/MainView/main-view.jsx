@@ -4,10 +4,16 @@ import { MovieView } from "../MovieView/movie-view";
 import movieImage from "../MainView/images/images.jpeg";
 import movieImage2 from "../MainView/images/shawshank.jpg";
 import movieImage3 from "../MainView/images/gladiator.jpeg";
+import { LoginView } from "../LoginView/login-view";
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [user, setUser] = useState(null);
+  if (!user) {
+    return <LoginView />;
+  }
+
   useEffect(() => {
     fetch("https://morning-badlands-99587.herokuapp.com/movies")
       .then((response) => response.json())
