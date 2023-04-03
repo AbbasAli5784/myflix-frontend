@@ -1,0 +1,10 @@
+.container {
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.accountDropdown {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}

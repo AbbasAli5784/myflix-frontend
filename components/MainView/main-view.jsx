@@ -6,6 +6,9 @@ import movieImage2 from "../MainView/images/shawshank.jpg";
 import movieImage3 from "../MainView/images/gladiator.jpeg";
 import { LoginView } from "../LoginView/login-view";
 import { SignUpView } from "../SignUpView/signup-view";
+import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
+import styles from "./Mainview.module.css";
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
@@ -60,6 +63,9 @@ export const MainView = () => {
     setToken(token);
     setView("movies");
   };
+  const changeView = (newView) => {
+    setView(newView);
+  };
 
   if (view === "movies") {
     if (selectedMovie) {
@@ -74,30 +80,52 @@ export const MainView = () => {
     // if (movies.length === 0) {
     // Iterated the movies list to render each item on the dom
     return (
-      <div>
-        <ul>
-          {movies.map((x) => (
-            <li>
-              <a href="#" onClick={() => setSelectedMovie(x)}>
-                {x.Name}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <button onClick={logout}>Logout</button>
-      </div>
+      <>
+        <div className={styles.container}>
+          <div className={styles.accountDropdown}>
+            <Dropdown>
+              <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                Account
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </div>
+        <Container>
+          <Row>
+            {movies.map((x) => (
+              <Col md={4} key={x.id}>
+                <Card
+                  style={{ width: "18rem", marginBottom: "1rem" }}
+                  
+                >
+                  <Card.Img variant="top" src="" alt={x.Name} />
+                  <Card.Body>
+                    <Card.Title>{x.Name}</Card.Title>
+                    <Button
+                    variant="primary"
+                    onClick={() => setSelectedMovie(x)}
+                    >Open</Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </>
     );
   } else if (view == "login") {
     return (
       <div>
-        <LoginView onLoggedIn={onLoggedIn} />
-        <button onClick={() => setView("signup")}>Sign Up</button>
+        <LoginView onLoggedIn={onLoggedIn} changeView={changeView} />
       </div>
     );
   } else if (view === "signup") {
     return (
       <div>
-        <SignUpView onSignUp={() => setView("login")} />
+        <SignUpView onSignUp={() => setView("login")} changeView={changeView} />
         <button onClick={() => setView("login")}>Back To Login</button>
       </div>
     );
