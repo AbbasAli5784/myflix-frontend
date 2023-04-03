@@ -5820,11 +5820,18 @@ var _shawshankJpg = require("../MainView/images/shawshank.jpg");
 var _shawshankJpgDefault = parcelHelpers.interopDefault(_shawshankJpg);
 var _gladiatorJpeg = require("../MainView/images/gladiator.jpeg");
 var _gladiatorJpegDefault = parcelHelpers.interopDefault(_gladiatorJpeg);
+var _loginView = require("../LoginView/login-view");
 var _s = $RefreshSig$();
 const MainView = ()=>{
     _s();
     const [movies, setMovies] = (0, _react.useState)([]);
     const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
+    const [user, setUser] = (0, _react.useState)(null);
+    if (!user) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _loginView.LoginView), {}, void 0, false, {
+        fileName: "components/MainView/main-view.jsx",
+        lineNumber: 14,
+        columnNumber: 12
+    }, undefined);
     (0, _react.useEffect)(()=>{
         fetch("https://morning-badlands-99587.herokuapp.com/movies").then((response)=>response.json()).then((data)=>{
             setMovies(data);
@@ -5837,7 +5844,7 @@ const MainView = ()=>{
         onBackClick: ()=>setSelectedMovie(null)
     }, void 0, false, {
         fileName: "components/MainView/main-view.jsx",
-        lineNumber: 23,
+        lineNumber: 29,
         columnNumber: 7
     }, undefined);
     //else if (movies.length == 0) render <p>Movies list is empty</p>
@@ -5852,22 +5859,22 @@ const MainView = ()=>{
                         children: x.Name
                     }, void 0, false, {
                         fileName: "components/MainView/main-view.jsx",
-                        lineNumber: 37,
+                        lineNumber: 43,
                         columnNumber: 13
                     }, undefined)
                 }, void 0, false, {
                     fileName: "components/MainView/main-view.jsx",
-                    lineNumber: 36,
+                    lineNumber: 42,
                     columnNumber: 11
                 }, undefined))
         }, void 0, false, {
             fileName: "components/MainView/main-view.jsx",
-            lineNumber: 34,
+            lineNumber: 40,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "components/MainView/main-view.jsx",
-        lineNumber: 33,
+        lineNumber: 39,
         columnNumber: 5
     }, undefined);
 // }
@@ -5887,7 +5894,7 @@ const MainView = ()=>{
 //   </div>
 // );
 };
-_s(MainView, "PO+XgOji7E32nFJj3H5UPLPJ7w4=");
+_s(MainView, "AA2Lbd5vppiQn5Rpxq/geFPiCys=");
 _c = MainView;
 var _c;
 $RefreshReg$(_c, "MainView");
@@ -5897,7 +5904,7 @@ $RefreshReg$(_c, "MainView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"21dqq","../MovieCard/movie-card":"83OEy","../MovieView/movie-view":"3dY15","../MainView/images/images.jpeg":"kvHrK","../MainView/images/shawshank.jpg":"i4wm6","../MainView/images/gladiator.jpeg":"i3JAf","@parcel/transformer-js/src/esmodule-helpers.js":"kXVmR","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gFrcn","react/jsx-dev-runtime":"iTorj"}],"83OEy":[function(require,module,exports) {
+},{"react":"21dqq","../MovieCard/movie-card":"83OEy","../MovieView/movie-view":"3dY15","../MainView/images/images.jpeg":"kvHrK","../MainView/images/shawshank.jpg":"i4wm6","../MainView/images/gladiator.jpeg":"i3JAf","@parcel/transformer-js/src/esmodule-helpers.js":"kXVmR","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gFrcn","react/jsx-dev-runtime":"iTorj","../LoginView/login-view":"baFer"}],"83OEy":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$8012 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -6899,7 +6906,109 @@ module.exports = require("6975bf6dece364ac").getBundleURL("byUka") + "shawshank.
 },{"6975bf6dece364ac":"8YOtz"}],"i3JAf":[function(require,module,exports) {
 module.exports = require("c501f6795bdf23d9").getBundleURL("byUka") + "gladiator.fbef1d26.jpeg" + "?" + Date.now();
 
-},{"c501f6795bdf23d9":"8YOtz"}],"j6uA9":[function(require,module,exports) {
+},{"c501f6795bdf23d9":"8YOtz"}],"baFer":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$c53b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$c53b.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "LoginView", ()=>LoginView);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _s = $RefreshSig$();
+const LoginView = ()=>{
+    _s();
+    const [username, setUsername] = (0, _react.useState)("");
+    const [password, setPassword] = (0, _react.useState)("");
+    const handleSubmit = (event)=>{
+        // this prevents the default behavior of the form which is to reload the entire page
+        event.preventDefault();
+        const data = {
+            Username: username,
+            Password: password
+        };
+        fetch("https://morning-badlands-99587.herokuapp.com/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then((response)=>response.json()) //Parse tge resonse JSON
+        .then((data)=>{
+            console.log("Login succesful:", data);
+        }).catch((error)=>{
+            console.error("Error during login:", error);
+        });
+    };
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
+        onSubmit: handleSubmit,
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                children: [
+                    "Username:",
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "text",
+                        value: username,
+                        onChange: (e)=>setUsername(e.target.value)
+                    }, void 0, false, {
+                        fileName: "components/LoginView/login-view.jsx",
+                        lineNumber: 34,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "components/LoginView/login-view.jsx",
+                lineNumber: 32,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                children: [
+                    "Password:",
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "password",
+                        value: password,
+                        onChange: (e)=>setPassword(e.target.value)
+                    }, void 0, false, {
+                        fileName: "components/LoginView/login-view.jsx",
+                        lineNumber: 42,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "components/LoginView/login-view.jsx",
+                lineNumber: 40,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                type: "submit",
+                children: "Submit"
+            }, void 0, false, {
+                fileName: "components/LoginView/login-view.jsx",
+                lineNumber: 48,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "components/LoginView/login-view.jsx",
+        lineNumber: 31,
+        columnNumber: 5
+    }, undefined);
+};
+_s(LoginView, "Lrw7JeD9zj6OUWhT/IH4OIvPKEk=");
+_c = LoginView;
+var _c;
+$RefreshReg$(_c, "LoginView");
+
+  $parcel$ReactRefreshHelpers$c53b.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"kXVmR","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gFrcn","react/jsx-dev-runtime":"iTorj"}],"j6uA9":[function(require,module,exports) {
 "use strict";
 function checkDCE() {
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === "undefined" || typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== "function") return;
