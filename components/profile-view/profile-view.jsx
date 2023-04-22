@@ -70,7 +70,7 @@ export const ProfileView = ({
         }
       })
       .then((data) => {
-        alert("Your account has been succesfully deleted! ")
+        alert("Your account has been succesfully deleted! ");
         logOut();
       })
       .catch((err) => {
@@ -143,10 +143,8 @@ export const ProfileView = ({
       Birthday: newBirthday,
     };
 
-    
-
     fetch(
-      `https://morning-badlands-99587.herokuapp.com/users/${currentUser._id}`,
+      `https://morning-badlands-99587.herokuapp.com/users/${currentUser.Username}`,
       {
         method: "PUT",
         headers: {

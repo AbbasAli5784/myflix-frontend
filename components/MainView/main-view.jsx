@@ -32,7 +32,7 @@ export const MainView = () => {
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [favorites, setFavorites] = useState([]);
-  const [updateFavorites, setUpdateFavorites] = useState(true);
+
   useEffect(() => {
     fetch("https://morning-badlands-99587.herokuapp.com/users", {
       method: "GET",
@@ -60,75 +60,46 @@ export const MainView = () => {
         .then((response) => response.json())
         .then((data) => {
           setMovies(data);
-          console.log("Fetched movies", data);
+          populateFavorites(data);
         })
         .catch((err) => console.log(err));
       console.log(selectedMovie);
     }
   }, [token]);
 
-  // useEffect(() => {
-  //   // localStorage.setItem("favorites", JSON.stringify(favorites));
-  //   console.log("Favorites stored in local storage:", favorites);
-  // }, [favorites]);
-
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     const storedToken = localStorage.getItem("token");
-    // const storedFavorites = localStorage.getItem("favorites");
 
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
       setToken(storedToken);
     }
     console.log("User:", user);
-    // if (storedFavorites) {
-    //   setFavorites(JSON.parse(storedFavorites));
-    //   console.log(
-    //     "Fetched favorites from local storage:",
-    //     JSON.parse(storedFavorites)
-    //   );
-    // }
   }, []);
-  useEffect(() => {
-    // if (updateFavorites) {
-    const fetchFavoriteMovies = async () => {
-      try {
-        const response = await fetch(
-          `https://morning-badlands-99587.herokuapp.com/users/${user.Username}/favoritemovies`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await response.json();
-        // console.log("Testing favorites", data);
-        // const Favorite = movies.filter((x) => movies.in(x.movieId));
-        setFavorites(data);
-        //     const moviePromises = data.map(async (movieId) => {
-        //       const movieResponse = await fetch(
-        //         `https://morning-badlands-99587.herokuapp.com/movies/${movieId}`,
-        //         {
-        //           headers: {
-        //             Authorization: `Bearer ${token}`,
-        //           },
-        //         }
-        //       );
-        //       return await movieResponse.json();
-        //     });
-        //     const movieDetails = (await Promise.all(moviePromises)).filter(
-        //       (movie) => movie !== null
-        //     );
-        //     setFavorites(movieDetails);
-      } catch (err) {
-        console.log(err);
-      }
-    };
 
-    fetchFavoriteMovies();
-    // }
-  }, [favorites]);
+  // useEffect(() => {
+  //   console.log("it's being called");
+  //   let favoriteList = [];
+  //   try {
+  //     fetch(
+  //       `https://morning-badlands-99587.herokuapp.com/users/${user.Username}/favoritemovies`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     )
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         console.log("this is the data: ", data);
+  //         favoriteList = movies.filter((movie) => data.includes(movie._id));
+  //         setFavorites(favoriteList);
+  //       });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, []);
 
   const profileInfo = () => {
     setSelectedProfile(user);
@@ -140,6 +111,36 @@ export const MainView = () => {
     setUser(null);
     setToken(null);
   };
+
+  const populateFavorites = (movies) => {
+    // console.log("This is the user: ", user.Username);
+    try {
+      const response = fetch(
+        `https://morning-badlands-99587.herokuapp.com/users/${user.Username}/favoritemovies`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          let favoriteList = [];
+          // console.log("these are the movies: ", passedMovies);
+          favoriteList = movies.filter((movie) => data.includes(movie._id));
+
+          setFavorites(favoriteList);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (user && movies.length > 0) {
+      populateFavorites(movies);
+    }
+  }, [user, movies]);
 
   const onLoggedIn = (user, token) => {
     setUser({
@@ -185,6 +186,7 @@ export const MainView = () => {
 
   const removeFavoriteMovie = async (user, token, movieId) => {
     try {
+      console.log("trying to fetch: ", movieId);
       await fetch(
         `https://morning-badlands-99587.herokuapp.com/users/${user.Username}/movies/${movieId}`,
         {
@@ -206,22 +208,23 @@ export const MainView = () => {
     if (isFavorited) {
       console.log("Is movie favorited:", isFavorited);
       // Remove the movie from favorites
+      console.log("movie movie object:", movie);
       await removeFavoriteMovie(user, token, movie._id);
     } else {
       // Add the movie to favorites
       await addFavoriteMovie(user, token, movie._id);
     }
-
+    console.log("this is favorites: ", favorites);
     const updatedFavorites = isFavorited
       ? favorites.filter((fav) => fav._id !== movie._id)
       : [...favorites, movie];
-    console.log("Updated favorites before setting state:", updatedFavorites);
+    console.log("this is updateed favorites: ", updatedFavorites);
 
     // localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     console.log("Favorites stored in local storage:", updatedFavorites);
     console.log("Updated favorites:", updatedFavorites);
+    console.log("Logging favorites", favorites);
     setFavorites(updatedFavorites);
-    setUpdateFavorites(false);
   };
   const MoviesList = ({ movies, toggleFavorite, favorites }) => {
     return (
@@ -281,10 +284,18 @@ export const MainView = () => {
                     {user.Username}
                   </Dropdown.Item>
                 )}
-                <Dropdown.Item as={Link} to="/movies">
+                <Dropdown.Item
+                  // onClick={populateFavorites(movies)}
+                  as={Link}
+                  to="/movies"
+                >
                   Movies
                 </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/favoriteMovies">
+                <Dropdown.Item
+                  // onClick={populateFavorites(movies)}
+                  as={Link}
+                  to="/favoriteMovies"
+                >
                   Favorite Movies
                 </Dropdown.Item>
                 <Dropdown.Item onClick={logout} as={Link} to="/login">
@@ -330,7 +341,6 @@ export const MainView = () => {
                 toggleFavorite={toggleFavorite}
                 favorites={favorites}
                 setFavorites={setFavorites}
-                updateFavorites={updateFavorites}
                 onFavoritesUpdated={onFavoritesUpdated}
                 movies={movies}
               />
@@ -373,7 +383,6 @@ export const MainView = () => {
                   token={token}
                   toggleFavorite={toggleFavorite}
                   favorites={favorites}
-                  setUpdateFavorites={setUpdateFavorites}
                 />
               </>
             ) : (
