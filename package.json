@@ -18,10 +18,12 @@
     "react-icons": "^4.8.0",
     "react-router": "^6.10.0",
     "react-router-dom": "^6.10.0",
-    "save": "^2.9.0"
+    "save": "^2.9.0",
+    "svgo": "^3.0.2"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.3",
+    "parcel": "^2.8.3",
     "process": "^0.11.10"
   }
 }
