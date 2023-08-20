@@ -186,62 +186,74 @@ export const ProfileView = ({
   if (!currentUser) return <div>No user data available</div>;
 
   return (
-    <Container>
+    <Container className="mt-5">
       <Row>
-        <Col>
-          <h1>User Info</h1>
-          {editMode ? (
-            <Form onSubmit={handleUpdateInfo}>
-              <Form.Group controlId="formUsername">
-                <Form.Label>Username:</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={newUsername}
-                  onChange={(e) => setNewUsername(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group controlId="formEmail">
-                <Form.Label>Email:</Form.Label>
-                <Form.Control
-                  type="email"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group controlId="formBirthday">
-                <Form.Label>Birthday:</Form.Label>
-                <Form.Control
-                  type="date"
-                  value={newBirthday}
-                  onChange={(e) => setNewBirthday(e.target.value)}
-                />
-              </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Save Changes
-              </Button>
-              <Button variant="secondary" onClick={() => setEditMode(false)}>
-                Cancel
-              </Button>
-            </Form>
-          ) : (
-            <>
-              <div>Username: {currentUser.Username}</div>
-              <div>Email: {currentUser.Email}</div>
-              <div>Date Of Birth: {currentUser.Birthday}</div>
-              <Button onClick={() => setEditMode(true)}>Update Info</Button>
-              <Button onClick={() => setChangePasswordModal(true)}>
-                Change Password
-              </Button>
-              <Button onClick={() => setDeleteUserModal(true)}>
-                Delete Account
-              </Button>
-              <Modal
-                show={showDeleteUserModal}
-                onHide={() => setDeleteUserModal(false)}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Delete Account</Modal.Title>
+        <Col md={{ span: 6, offset: 3 }}>
+          <Card className="p-4 shadow-lg">
+            <h1 className="mb-4 text-center">User Info</h1>
+            {editMode ? (
+              <Form onSubmit={handleUpdateInfo}>
+                <Form.Group controlId="formUsername">
+                  <Form.Label>Username:</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={newUsername}
+                    onChange={(e) => setNewUsername(e.target.value)}
+                  />
+                </Form.Group>
+                <Form.Group controlId="formEmail">
+                  <Form.Label>Email:</Form.Label>
+                  <Form.Control
+                    type="email"
+                    value={newEmail}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                  />
+                </Form.Group>
+                <Form.Group controlId="formBirthday">
+                  <Form.Label>Birthday:</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={newBirthday}
+                    onChange={(e) => setNewBirthday(e.target.value)}
+                  />
+                </Form.Group>
+                <Button variant="primary" type="submit" className="mr-2">
+                  Save Changes
+                </Button>
+                <Button variant="secondary" onClick={() => setEditMode(false)}>
+                  Cancel
+                </Button>
+              </Form>
+            ) : (
+              <>
+                <div className="mb-2">Username: {currentUser.Username}</div>
+                <div className="mb-2">Email: {currentUser.Email}</div>
+                <div className="mb-3">
+                  Date Of Birth: {currentUser.Birthday}
+                </div>
+                <Button onClick={() => setEditMode(true)} className="mr-2 mb-2">
+                  Update Info
+                </Button>
+                <Button
+                  onClick={() => setChangePasswordModal(true)}
+                  className="mr-2"
+                >
+                  Change Password
+                </Button>
+                <Button
+                className="mt-2"
+                  variant="danger"
+                  onClick={() => setDeleteUserModal(true)}
+                >
+                  Delete Account
+                </Button>
+                <Modal
+                  show={showDeleteUserModal}
+                  onHide={() => setDeleteUserModal(false)}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Delete Account</Modal.Title>
+                  </Modal.Header>
                   <Modal.Body>
                     <Form onSubmit={deleteAccount}>
                       <Form.Group controlId="formUsername">
@@ -267,48 +279,45 @@ export const ProfileView = ({
                       </Button>
                     </Form>
                   </Modal.Body>
-                </Modal.Header>
-              </Modal>
-
-              <Modal
-                show={showChangePasswordModal}
-                onHide={() => setChangePasswordModal(false)}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Change Password</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form onSubmit={handleChangePassword}>
-                    <Form.Group controlId="formOldPassword">
-                      <Form.Label>Old Password</Form.Label>
-                      <Form.Control
-                        type="password"
-                        placeholder="Enter Old Password"
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                      />
-                    </Form.Group>
-                    <Form.Group controlId="formNewPassword">
-                      <Form.Label>New Password:</Form.Label>
-                      <Form.Control
-                        type="password"
-                        placeholder="Enter A New Password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                      />
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                      Submit
-                    </Button>
-                  </Form>
-                </Modal.Body>
-              </Modal>
-            </>
-          )}
+                </Modal>
+                <Modal
+                  show={showChangePasswordModal}
+                  onHide={() => setChangePasswordModal(false)}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Change Password</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form onSubmit={handleChangePassword}>
+                      <Form.Group controlId="formOldPassword">
+                        <Form.Label>Old Password</Form.Label>
+                        <Form.Control
+                          type="password"
+                          placeholder="Enter Old Password"
+                          value={oldPassword}
+                          onChange={(e) => setOldPassword(e.target.value)}
+                        />
+                      </Form.Group>
+                      <Form.Group controlId="formNewPassword">
+                        <Form.Label>New Password:</Form.Label>
+                        <Form.Control
+                          type="password"
+                          placeholder="Enter A New Password"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                        />
+                      </Form.Group>
+                      <Button variant="primary" type="submit">
+                        Submit
+                      </Button>
+                    </Form>
+                  </Modal.Body>
+                </Modal>
+              </>
+            )}
+          </Card>
         </Col>
       </Row>
     </Container>
   );
 };
-
-export default ProfileView;

@@ -15,7 +15,7 @@ export const MovieView = ({ movies }) => {
   return (
     <div>
       <div>
-        <img src={selectedMovie.image} />
+        <img src={"images/" + selectedMovie.ImagePath} />
       </div>
       <div>
         <span>Title: </span>

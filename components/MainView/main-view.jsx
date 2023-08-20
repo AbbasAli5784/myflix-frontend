@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { MovieCard } from "../MovieCard/movie-card";
 import { MovieView } from "../MovieView/movie-view";
-import movieImage from "../MainView/images/images.jpeg";
-import movieImage2 from "../MainView/images/shawshank.jpg";
-import movieImage3 from "../MainView/images/gladiator.jpeg";
 import { LoginView } from "../LoginView/login-view";
 import { SignUpView } from "../SignUpView/signup-view";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
@@ -77,29 +74,6 @@ export const MainView = () => {
     }
     console.log("User:", user);
   }, []);
-
-  // useEffect(() => {
-  //   console.log("it's being called");
-  //   let favoriteList = [];
-  //   try {
-  //     fetch(
-  //       `https://morning-badlands-99587.herokuapp.com/users/${user.Username}/favoritemovies`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     )
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         console.log("this is the data: ", data);
-  //         favoriteList = movies.filter((movie) => data.includes(movie._id));
-  //         setFavorites(favoriteList);
-  //       });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }, []);
 
   const profileInfo = () => {
     setSelectedProfile(user);
@@ -233,7 +207,11 @@ export const MainView = () => {
           {movies.map((x) => (
             <Col md={4} key={x._id}>
               <Card style={{ width: "18rem", marginBottom: "1rem" }}>
-                <Card.Img variant="top" src="" alt={x.Name} />
+                <Card.Img
+                  variant="top"
+                  src={"images/" + x.ImagePath}
+                  alt={x.Name}
+                />
                 <Card.Body>
                   <Card.Title>{x.Name}</Card.Title>
                   <div

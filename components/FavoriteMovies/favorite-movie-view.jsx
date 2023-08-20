@@ -13,45 +13,6 @@ export const FavoriteMovies = ({
   onFavoritesUpdated,
   movies,
 }) => {
-  // useEffect(() => {
-  //   if (updateFavorites) {
-  //     const fetchFavoriteMovies = async () => {
-  //       try {
-  //         const response = await fetch(
-  //           `https://morning-badlands-99587.herokuapp.com/users/${user.Username}/favoritemovies`,
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${token}`,
-  //             },
-  //           }
-  //         );
-  //         const data = await response.json();
-  //         // const Favorite = movies.filter((x) => movies.in(x.movieId));
-  //         setFavorites(data);
-  //         //     const moviePromises = data.map(async (movieId) => {
-  //         //       const movieResponse = await fetch(
-  //         //         `https://morning-badlands-99587.herokuapp.com/movies/${movieId}`,
-  //         //         {
-  //         //           headers: {
-  //         //             Authorization: `Bearer ${token}`,
-  //         //           },
-  //         //         }
-  //         //       );
-  //         //       return await movieResponse.json();
-  //         //     });
-  //         //     const movieDetails = (await Promise.all(moviePromises)).filter(
-  //         //       (movie) => movie !== null
-  //         //     );
-  //         //     setFavorites(movieDetails);
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     };
-
-  //     // fetchFavoriteMovies();
-  //   }
-  // }, [user, token, setFavorites, updateFavorites]);
-
   return (
     <Container>
       <Row>
@@ -59,7 +20,11 @@ export const FavoriteMovies = ({
           movie ? (
             <Col md={4} key={movie._id}>
               <Card style={{ width: "18rem", marginBottom: "1rem" }}>
-                <Card.Img variant="top" src="" alt={movie.Name} />
+                <Card.Img
+                  variant="top"
+                  src={"images/" + movie.ImagePath}
+                  alt={movie.Name}
+                />
                 <Card.Body>
                   <Card.Title>{movie.Name}</Card.Title>
                   <div
